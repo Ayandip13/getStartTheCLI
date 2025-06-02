@@ -3,8 +3,13 @@ import React from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 
-
-
+const SignupSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(2, 'Too Short')
+    .max(50, 'Too long for password')
+    .required('Required'),
+  email: Yup.string().email('Invalid Email').required('Enter your email address'),
+});
 
 const App = () => {
   return (
@@ -15,8 +20,9 @@ const App = () => {
         password: '',
         confPass: '',
         mobile: '',
-      }}>
-      {({values, errors, touched, handleSubmit}) => (
+      }}
+      validationSchema={SignupSchema}>
+      {({values, errors, touched, handleSubmit, handleChange, isValid}) => (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <StatusBar barStyle={'light-content'} />
           <View>
@@ -39,8 +45,13 @@ const App = () => {
                 paddingHorizontal: 55,
                 marginTop: 20,
               }}
+              value={values.name}
               placeholder="Full name"
+              onChangeText={handleChange('name')}
             />
+            {errors.name&&(
+              <Text style={{color:'red'}}>{errors.name}</Text>
+            )}
             <TextInput
               style={{
                 fontSize: 17,
@@ -48,7 +59,9 @@ const App = () => {
                 paddingHorizontal: 55,
                 marginTop: 20,
               }}
+              value={values.email}
               placeholder="Email"
+              onChangeText={handleChange}
             />
             <TextInput
               style={{
@@ -57,7 +70,9 @@ const App = () => {
                 paddingHorizontal: 55,
                 marginTop: 20,
               }}
+              value={values.password}
               placeholder="Password"
+              onChangeText={handleChange}
             />
             <TextInput
               style={{
@@ -66,6 +81,8 @@ const App = () => {
                 paddingHorizontal: 55,
                 marginTop: 20,
               }}
+              onChangeText={handleChange}
+              value={values.confPass}
               placeholder="Confirm Password"
             />
             <TextInput
@@ -75,6 +92,8 @@ const App = () => {
                 paddingHorizontal: 55,
                 marginTop: 20,
               }}
+              onChangeText={handleChange}
+              value={values.mobile}
               placeholder="Mobile No."
             />
           </View>
