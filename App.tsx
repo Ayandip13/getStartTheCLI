@@ -9,6 +9,7 @@ const SignupSchema = Yup.object().shape({
     .max(50, 'Too long for password')
     .required('Required'),
   email: Yup.string().email('Invalid Email').required('Enter your email address'),
+  password: Yup.string().email('Invalid Email').required('Enter your password'),
 });
 
 const App = () => {
@@ -63,6 +64,9 @@ const App = () => {
               placeholder="Email"
               onChangeText={handleChange}
             />
+            {errors.email&&(
+              <Text style={{color:'red'}}>{errors.email}</Text>
+            )}
             <TextInput
               style={{
                 fontSize: 17,
@@ -74,6 +78,9 @@ const App = () => {
               placeholder="Password"
               onChangeText={handleChange}
             />
+            {errors.password&&(
+              <Text style={{color:'red'}}>{errors.password}</Text>
+            )}
             <TextInput
               style={{
                 fontSize: 17,
